@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            position: relative;
+            width: 600px;
+            height: 300px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .image {
+            width: 250px;
+            height: auto;
+            transition: transform 1s ease;
+        }
+
+        /* Style pour l'image de décor */
+        .decor-image {
+            position: absolute;
+            bottom: -50px; /* Positionner encore plus bas */
+            right: 0;
+            width: 100px; /* Ajustez la taille selon vos besoins */
+            height: auto;
+            opacity: 0.7; /* Ajustez la transparence si nécessaire */
+        }
+
+        /* Styles pour le bouton personnalisé */
+        button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Animation pour l'image de droite */
+        .move-right {
+            animation: moveRightImage 1s forwards;
+        }
+
+        @keyframes moveRightImage {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(-250px); /* Déplacer l'image vers la gauche */
+            }
+            100% {
+                transform: translateX(0); /* Retour à la position d'origine */
+            }
+        }
+
+        /* Réinitialiser le bouton */
+        .reset {
+            display: none;
+            margin-top: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .reset:hover {
+            background-color: #c9302c;
+        }
+
+        /* Ajout d'une marge pour le bouton principal */
+        .button-container {
+            margin-top: 100px; /* Ajustez cette valeur pour déplacer le bouton plus bas */
+        }
+    </style>
+    <title>Images côte à côte</title>
+</head>
+<body>
+    <div class="container">
+        <img id="leftImage" src="sabri0.jpg" alt="Image de gauche" class="image">
+        <img id="rightImage" src="serviannais.png" alt="Image de droite" class="image">
+        <!-- Image de décor ajoutée ici -->
+        <img src="cerfvian.jpg" alt="Image de décor" class="decor-image">
+    </div>
+
+    <!-- Bouton de déclenchement de l'animation et changement d'image -->
+    <div class="button-container">
+        <button id="changeButton">Pourquoi tu rigoles?</button>
+    </div>
+
+    <!-- Bouton de réinitialisation -->
+    <button class="reset" onclick="location.reload()">Réinitialiser</button>
+
+    <script>
+        let currentClick = 0;
+        const images = ['sabri1.jpg', 'sabri2.jpg', 'sabri3.jpg']; // Les images à afficher à gauche
+        const leftImage = document.getElementById('leftImage');
+        const rightImage = document.getElementById('rightImage');
+        const changeButton = document.getElementById('changeButton');
+        const resetButton = document.querySelector('.reset');
+
+        changeButton.addEventListener('click', function() {
+            // Appliquer l'animation à l'image de droite
+            rightImage.classList.add('move-right');
+
+            // Changer l'image de gauche
+            currentClick++;
+            if (currentClick <= images.length) {
+                leftImage.src = images[currentClick - 1];
+            }
+
+            // Réinitialiser l'animation après sa fin pour permettre un nouveau clic
+            rightImage.addEventListener('animationend', () => {
+                rightImage.classList.remove('move-right');
+            });
+
+            // Si c'est le dernier clic, cacher le bouton et afficher le bouton de réinitialisation
+            if (currentClick === images.length) {
+                changeButton.style.display = 'none';
+                resetButton.style.display = 'inline-block';
+            }
+        });
+    </script>
+</body>
+</html>
